@@ -4,7 +4,7 @@ Skapar några grundläggande frågor mot databasen enligt CRUD. Create, read, Up
 ## Skapa databas 
 Du kan använda din egna databas, eller så använder du samma som jag på föreläsningen. Läs i så fall in den backupfilen.
 1. Skapa en databas i din lokala pgAdmin
-2. Leta upp filen MountainBackup.backup i mappen databasbackup
+2. Leta upp filen [MountainBackup.backup](https://github.com/systemvetenskap/ExtremeExpeditions/tree/master/ExtremeExpeditions/Databasbackup) i mappen databasbackup
 3. Högerklicka på din nyskapade databas och välj restore
 4. Sök upp filen du tankade ner i punkt 2 ovan och återställ.
 
