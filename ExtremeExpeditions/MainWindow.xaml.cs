@@ -29,6 +29,9 @@ namespace ExtremeExpeditions
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+            
+            
+            
             var peak = db.GetPeak(1);
             var peaks = db.GetPeaks();
             lstPeaks.ItemsSource = peaks;
