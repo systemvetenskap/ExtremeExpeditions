@@ -11,6 +11,10 @@ Du kan använda din egna databas, eller så använder du samma som jag på före
 
 För att du ska koppla upp dig mot databasen behöver du antingen byta till din användare (superuser) vid namn postgres och det lösenord du valde vid din installation, eller så gör du som det lite bättre alternativet att du lägger till en separat användare till ditt program. Mycket säkrare!
 
+### Fysisk databasmodell
+Den grupp som gjorde databasen har även skapat en databasmodell:
+![Fysisk databasmodell](https://github.com/systemvetenskap/ExtremeExpeditions/blob/master/ExtremeExpeditions/Databasbackup/ClimbingModel.png)
+
 ## Tilldela rättigheter
 Först lägger du alltså till din användare i postgres. Därefter måste du tilldela rättigheter: GRANT
 
