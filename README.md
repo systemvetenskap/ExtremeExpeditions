@@ -1,4 +1,14 @@
 # ExtremeExpeditions
+Skapar några grundläggande frågor mot databasen enligt CRUD. Create, read, Update and Delete. 
+
+## Skapa databas 
+Du kan använda din egna databas, eller så använder du samma som jag på föreläsningen. Läs i så fall in den backupfilen.
+1. Skapa en databas i din lokala pgAdmin
+2. Leta upp filen MountainBackup.backup i mappen databasbackup
+3. Högerklicka på din nyskapade databas och välj restore
+4. Sök upp filen du tankade ner i punkt 2 ovan och återställ.
+
+
 För att du ska koppla upp dig mot databasen behöver du antingen byta till din användare (superuser) vid namn postgres och det lösenord du valde vid din installation, eller så gör du som det lite bättre alternativet att du lägger till en separat användare till ditt program. Mycket säkrare!
 
 ## Tilldela rättigheter
