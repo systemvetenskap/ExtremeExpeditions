@@ -29,12 +29,33 @@ namespace ExtremeExpeditions
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            
-            
-            
-            var peak = db.GetPeak(1);
-            var peaks = db.GetPeaks();
-            lstPeaks.ItemsSource = peaks;
+            try
+            {
+                var peak = db.GetPeak(1);
+                var peaks = db.GetPeaks();
+                lstPeaks.ItemsSource = peaks;
+                peak = peaks[0];
+                peak.Elevation = 999;
+
+                peak = peaks[1];
+                peak.Elevation = null;
+
+                db.UpdatePeaksWithTransaction(peaks);
+                /*
+                peak = new Peak
+                {
+                    PeakName = "Lillsjöhögen",
+                    RangeId=1
+                };
+
+                peak = db.AddPeak(peak);
+
+                */
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
