@@ -9,6 +9,43 @@ namespace ExtremeExpeditions.Repositories
     {
         private static readonly string connectionString = "Server=localhost;Port=5433;Database=expeditiondemodb;User ID=demouser; Password=Hemligt;";
         // Man måste ALLTID utgå från att en databas ger felmeddelanden!!
+
+        #region Create
+        /// <summary>
+        /// Adds new peak in database
+        /// </summary>
+        /// <param name="peak"></param>
+        /// <returns>Returns peak with newly generated id</returns>
+        public Peak AddPeak(Peak peak)
+        {
+            string stmt = "INSERT INTO peak(peakname, elevation, rangeid) VALUES(@peakname, @elevation, @rangeid) RETURNING peakid";
+
+            try
+            {
+                using var conn = new NpgsqlConnection(connectionString);
+                conn.Open();
+                using var command = new NpgsqlCommand(stmt, conn);
+                command.Parameters.AddWithValue("peakname", peak.PeakName);
+                command.Parameters.AddWithValue("elevation", peak.Elevation ?? Convert.DBNull);
+                command.Parameters.AddWithValue("rangeid", peak.RangeId);
+
+                using var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    peak.PeakId = (int)reader["peakid"];
+                }
+
+                return peak;
+            }
+            catch (PostgresException ex)
+            {
+                string errorCode = ex.SqlState;
+                throw new Exception("Du måste ange i vilken fjällkedja som berget ingår i", ex);
+            }
+        }
+
+
+        #endregion
         #region Read
         /// <summary>
         /// Gets a peak from database
@@ -67,44 +104,6 @@ namespace ExtremeExpeditions.Repositories
 
 
         #endregion
-
-        #region Create
-        /// <summary>
-        /// Adds new peak in database
-        /// </summary>
-        /// <param name="peak"></param>
-        /// <returns>Returns peak with newly generated id</returns>
-        public Peak AddPeak(Peak peak)
-        {
-            string stmt = "insert into peak(peakname, elevation, rangeid) values(@peakname, @elevation, @rangeid) returning peakid";
-
-            try
-            {
-                using var conn = new NpgsqlConnection(connectionString);
-                conn.Open();
-                using var command = new NpgsqlCommand(stmt, conn);
-                command.Parameters.AddWithValue("peakname", peak.PeakName);
-                command.Parameters.AddWithValue("elevation", peak.Elevation ?? Convert.DBNull);
-                command.Parameters.AddWithValue("rangeid", peak.RangeId);
-
-                using var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    peak.PeakId = (int)reader["peakid"];
-                }
-
-                return peak;
-            }
-            catch (PostgresException ex)
-            {
-                string errorCode = ex.SqlState;
-                throw new Exception("Du måste ange i vilken fjällkedja som berget ingår i", ex);
-            }
-        }
-
-       
-        #endregion
-
         #region Update
         /// <summary>
         /// Updates a collection of peaks
@@ -181,6 +180,30 @@ namespace ExtremeExpeditions.Repositories
         }
 
 
+        #endregion
+        #region Delete
+        /// <summary>
+        /// Removes peak from database
+        /// </summary>
+        /// <param name="id">Primary key</param>
+        /// <returns>Number of affected rows</returns>
+        public int DeletePeak(int id)
+        {
+            string stmt = "DELETE FROM peak WHERE peakid = @peakid";
+            try
+            {
+                using var conn = new NpgsqlConnection(connectionString);
+                conn.Open();
+                using var command = new NpgsqlCommand(stmt, conn);
+                command.Parameters.AddWithValue("peakid", id);
+
+               return command.ExecuteNonQuery();
+            }
+            catch (PostgresException ex)
+            {
+                throw new Exception("Bergstoppen kunde inte raderas från databasen.", ex);
+            }
+        }
         #endregion
     }
 }

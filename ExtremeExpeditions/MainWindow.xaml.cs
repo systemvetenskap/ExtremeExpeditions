@@ -31,6 +31,7 @@ namespace ExtremeExpeditions
         {
             try
             {
+                /*
                 var peak = db.GetPeak(1);
                 var peaks = db.GetPeaks();
                 lstPeaks.ItemsSource = peaks;
@@ -41,7 +42,7 @@ namespace ExtremeExpeditions
                 peak.Elevation = null;
 
                 db.UpdatePeaksWithTransaction(peaks);
-                /*
+                
                 peak = new Peak
                 {
                     PeakName = "Lillsjöhögen",
@@ -51,6 +52,8 @@ namespace ExtremeExpeditions
                 peak = db.AddPeak(peak);
 
                 */
+
+                var result = db.DeletePeak(6);
             }
             catch (Exception ex)
             {
